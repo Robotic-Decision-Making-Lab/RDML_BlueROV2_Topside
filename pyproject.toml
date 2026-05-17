@@ -1,0 +1,10 @@
+[project]
+name = "bluerov-topside"
+version = "0.1.0"
+description = "Deployment software for the BlueROV topside computer"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["setuptools"]
+
+[tool.uv]
+python-preference = "only-system"
