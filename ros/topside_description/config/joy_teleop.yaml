@@ -1,0 +1,100 @@
+# Logitech 310 channel mapping
+# Axis Description
+# 0    left X (left/right)
+# 1    left Y (up/down)
+# 2    LT
+# 3    right X
+# 4    right Y
+# 5    RT
+# 6    pseudo trigger axis (LT-RT; pressing RT results in a positive number)
+# 7    pseudo bumper axis (RB-LB; pressing RB results in a positive number)
+#
+# Button Description
+# 0      X
+# 1      A
+# 2      B
+# 3      Y
+# 4      LB
+# 5      RB
+# 6      LT
+# 7      RT
+# 8      BACK
+# 9      START
+# 10     left stick click
+# 11     right stick click
+
+joy_node:
+    ros__parameters:
+        dev: /dev/input/js0
+
+joy_teleop:
+    ros__parameters:
+        # left bumper
+        disable_autonomous_control:
+            type: service
+            interface_type: std_srvs/srv/SetBool
+            service_name: /controller_coordinator/activate
+            buttons: [4]
+            service_request:
+                data: False
+
+        enable_manual_input:
+            type: service
+            interface_type: std_srvs/srv/SetBool
+            service_name: /teleop/activate_teleop
+            buttons: [4]
+            service_request:
+                data: True
+
+        # right bumper
+        enable_autonomous_control:
+            type: service
+            interface_type: std_srvs/srv/SetBool
+            service_name: /controller_coordinator/activate
+            buttons: [5]
+            service_request:
+                data: True
+
+        disable_manual_input:
+            type: service
+            interface_type: std_srvs/srv/SetBool
+            service_name: /teleop/activate_teleop
+            buttons: [5]
+            service_request:
+                data: False
+
+        # back
+        disarm_ardusub:
+            type: service
+            interface_type: mavros_msgs/srv/CommandBool
+            service_name: /mavros/cmd/arming
+            service_request:
+                value: False
+            buttons: [8]
+
+        # start
+        arm_ardusub:
+            type: service
+            interface_type: mavros_msgs/srv/CommandBool
+            service_name: /mavros/cmd/arming
+            service_request:
+                value: True
+            buttons: [9]
+
+        # X
+        manual_mode:
+            type: service
+            interface_type: mavros_msgs/srv/SetMode
+            service_name: /mavros/set_mode
+            service_request:
+                custom_mode: MANUAL
+            buttons: [0]
+
+        # A
+        depth_hold_mode:
+            type: service
+            interface_type: mavros_msgs/srv/SetMode
+            service_name: /mavros/set_mode
+            service_request:
+                custom_mode: ALT_HOLD
+            buttons: [1]

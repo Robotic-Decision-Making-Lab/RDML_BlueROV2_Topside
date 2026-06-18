@@ -1,0 +1,62 @@
+# Copyright 2026, Evan Palmer
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+import os
+import sys
+from glob import glob
+
+from setuptools import find_packages, setup
+
+package_name = "topside_teleop"
+
+
+if len(sys.argv) >= 2 and sys.argv[1] != "clean":
+    from generate_parameter_library_py.setup_helper import generate_parameter_module
+
+    module_name = "teleop_parameters"
+    parameters_definition = "teleop/teleop_parameters.yaml"
+    generate_parameter_module(module_name, parameters_definition)
+
+setup(
+    name=package_name,
+    version="0.1.0",
+    packages=find_packages(),
+    data_files=[
+        ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
+        ("share/" + package_name, ["package.xml"]),
+        # Include all launch files.
+        (
+            os.path.join("share", package_name, "launch"),
+            glob(os.path.join("launch", "*launch.[pxy][yma]*")),
+        ),
+        # Include all config files.
+        (
+            os.path.join("share", package_name, "config"),
+            glob(os.path.join("config", "*.yaml")),
+        ),
+    ],
+    install_requires=["setuptools"],
+    zip_safe=True,
+    maintainer="Evan Palmer",
+    maintainer_email="evanp922@gmail.com",
+    description="Converts joystick input to MAVROS RC override messages",
+    license="MIT",
+    entry_points={"console_scripts": ["teleop_router = topside_teleop.router:main"]},
+)

@@ -1,0 +1,29 @@
+launch:
+    - let:
+          name: joy_file
+          value: $(find-pkg-share topside_description)/config/joy_teleop.yaml
+
+    - let:
+          name: router_file
+          value: $(find-pkg-share topside_description)/config/teleop_router.yaml
+
+    - node:
+          pkg: joy_linux
+          exec: joy_linux_node
+          output: screen
+          param:
+              - from: $(var joy_file)
+
+    - node:
+          pkg: joy_teleop
+          exec: joy_teleop
+          output: screen
+          param:
+              - from: $(var joy_file)
+
+    - node:
+          pkg: topside_teleop
+          exec: teleop_router
+          output: screen
+          param:
+              - from: $(var router_file)

@@ -1,0 +1,21 @@
+router:
+    ros__parameters:
+        # default PWM range for the ArduSub control PWM values
+        min_pwm: 1300
+        max_pwm: 1700
+
+        external_control:
+            # enable the external control interface so that we can forward joystick
+            # controls to an external (i.e., not ArduSub) controller
+            enable: false
+
+            # default to sending the joystick controls to the TAM
+            topic: "/thruster_allocation_matrix_controller/reference"
+
+            # the TAM expects force/torque commands
+            interface_type: "geometry_msgs/msg/Wrench"
+            interface_controls: ["force.y", "force.x", "torque.z", "force.z"]
+
+            # set the range to [-40, 40] N
+            min_val: -40.0
+            max_val: 40.0

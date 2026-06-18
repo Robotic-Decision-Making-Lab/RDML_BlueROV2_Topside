@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
-ARG CUDA_VERSION=12.6.0
-FROM nvidia/cuda:${CUDA_VERSION}-cudnn-devel-ubuntu24.04
+ARG CUDA_VERSION=13.3.0
+FROM nvidia/cuda:${CUDA_VERSION}-devel-ubuntu26.04
 
-ARG ROS_DISTRO=jazzy
+ARG ROS_DISTRO=lyrical
 ARG USERNAME=ubuntu
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -104,7 +104,6 @@ RUN sudo apt-get update \
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute
 ENV QT_X11_NO_MITSHM=1
-
 
 WORKDIR $USER_WORKSPACE
 RUN . "/opt/ros/${ROS_DISTRO}/setup.sh" \
