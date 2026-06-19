@@ -1,0 +1,46 @@
+watchdog_interface:
+    battery_topics:
+        type: string_array
+        read_only: true
+        description: A list of topics over which battery messages are being published.
+        default_value: []
+
+    battery_monitor_configurations:
+        __map_battery_topics:
+            total_cells:
+                type: int
+                read_only: true
+                description: The number of cells in the given LiPo battery.
+                default_value: 0
+
+            cutoff:
+                type: double
+                read_only: true
+                description: The minimum allowable battery percentage.
+                default_value: 0.25
+                bounds<>: [0.0, 1.0]
+
+            name:
+                type: string
+                read_only: true
+                description: The nickname used by the text-to-speech interface
+                default_value: ""
+
+    pressure_topics:
+        type: string_array
+        read_only: true
+        description: A list of topics over which internal pressure sensor data is published.
+        default_value: []
+
+    pressure_monitor_configurations:
+        __map_pressure_topics:
+            minimum_pressure:
+                type: double
+                default_value: 10.0
+                description: "The lowest allowable internal pressure reading (PSI)"
+
+            name:
+                type: string
+                read_only: true
+                description: The nickname used by the text-to-speech interface
+                default_value: ""

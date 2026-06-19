@@ -5,6 +5,7 @@ description = "Deployment software for the BlueROV topside computer"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "pyttsx3>=2.99",
     "setuptools",
 ]
 

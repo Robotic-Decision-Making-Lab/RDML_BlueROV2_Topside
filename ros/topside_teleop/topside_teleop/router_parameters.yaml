@@ -1,61 +1,61 @@
 router_interface:
-  min_pwm:
-    type: int
-    read_only: true
-    description: The minimum ArduSub control PWM value.
-    default_value: 1300
+    min_pwm:
+        type: int
+        read_only: true
+        description: The minimum ArduSub control PWM value.
+        default_value: 1300
 
-  max_pwm:
-    type: int
-    read_only: true
-    description: The maximum ArduSub control PWM value.
-    default_value: 1700
+    max_pwm:
+        type: int
+        read_only: true
+        description: The maximum ArduSub control PWM value.
+        default_value: 1700
 
-  external_control:
-    enable:
-      type: bool
-      read_only: true
-      description: >
-        Whether joystick inputs will be forwarded to an external control topic
-        when the manual ArduSub control is disabled.
-      default_value: false
+    external_control:
+        enable:
+            type: bool
+            read_only: true
+            description: >
+                Whether joystick inputs will be forwarded to an external control topic
+                when the manual ArduSub control is disabled.
+            default_value: false
 
-    topic:
-      type: string
-      read_only: true
-      description: >
-        The external topic that custom control messages will be published to.
-        This is used when the manual ArduSub control is disabled.
-      default_value: ""
+        topic:
+            type: string
+            read_only: true
+            description: >
+                The external topic that custom control messages will be published to.
+                This is used when the manual ArduSub control is disabled.
+            default_value: ""
 
-    interface_type:
-      type: string
-      read_only: true
-      description: >
-        The type of interface that the external control topic uses. This is used
-        to determine how to convert joystick inputs into messages for the
-        external controller.
-      default_value: "geometry_msgs/msg/Twist"
+        interface_type:
+            type: string
+            read_only: true
+            description: >
+                The type of interface that the external control topic uses. This is used
+                to determine how to convert joystick inputs into messages for the
+                external controller.
+            default_value: "geometry_msgs/msg/Twist"
 
-    interface_controls:
-      type: string_array
-      read_only: true
-      description: >
-        The names of the interface attributes that the joystick controls will
-        be mapped to. The order of the controls must match the order of the
-        joystick axes.
-      default_value: ["linear.y", "linear.x", "angular.z", "linear.z"]
+        interface_controls:
+            type: string_array
+            read_only: true
+            description: >
+                The names of the interface attributes that the joystick controls will
+                be mapped to. The order of the controls must match the order of the
+                joystick axes.
+            default_value: ["linear.y", "linear.x", "angular.z", "linear.z"]
 
-    min_value:
-      type: double
-      read_only: true
-      description: >
-        The minimum control value that can be sent to the external controller.
-      default_value: -0.5
+        min_value:
+            type: double
+            read_only: true
+            description: >
+                The minimum control value that can be sent to the external controller.
+            default_value: -0.5
 
-    max_value:
-      type: double
-      read_only: true
-      description: >
-        The maximum control value that can be sent to the external controller.
-      default_value: 0.5
+        max_value:
+            type: double
+            read_only: true
+            description: >
+                The maximum control value that can be sent to the external controller.
+            default_value: 0.5
