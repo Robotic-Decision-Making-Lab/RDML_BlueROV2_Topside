@@ -30,8 +30,8 @@ package_name = "topside_teleop"
 if len(sys.argv) >= 2 and sys.argv[1] != "clean":
     from generate_parameter_library_py.setup_helper import generate_parameter_module
 
-    module_name = "teleop_parameters"
-    parameters_definition = "teleop/teleop_parameters.yaml"
+    module_name = "router_parameters"
+    parameters_definition = "topside_teleop/router_parameters.yaml"
     generate_parameter_module(module_name, parameters_definition)
 
 setup(

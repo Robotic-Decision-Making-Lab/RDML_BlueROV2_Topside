@@ -64,7 +64,7 @@ class TeleopRouter(Node):
     ArduSub."""
 
     def __init__(self):
-        super().__init__("topside_teleop")
+        super().__init__("teleop_router")
 
         self.param_listener = router_interface.ParamListener(self)
         self.params = self.param_listener.get_params()

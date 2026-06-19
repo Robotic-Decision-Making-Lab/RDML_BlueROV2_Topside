@@ -1,4 +1,4 @@
-router:
+teleop_router:
     ros__parameters:
         # default PWM range for the ArduSub control PWM values
         min_pwm: 1300
@@ -7,7 +7,7 @@ router:
         external_control:
             # enable the external control interface so that we can forward joystick
             # controls to an external (i.e., not ArduSub) controller
-            enable: false
+            enable: true
 
             # default to sending the joystick controls to the TAM
             topic: "/thruster_allocation_matrix_controller/reference"
@@ -17,5 +17,5 @@ router:
             interface_controls: ["force.y", "force.x", "torque.z", "force.z"]
 
             # set the range to [-40, 40] N
-            min_val: -40.0
-            max_val: 40.0
+            min_value: -40.0
+            max_value: 40.0

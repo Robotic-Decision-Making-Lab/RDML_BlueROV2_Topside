@@ -86,6 +86,17 @@ RUN --mount=type=ssh,uid=1000 \
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN echo "export PYTHONPATH=\"\${PYTHONPATH}:${VIRTUAL_ENV}/lib/python3.12/site-packages\"" >> /home/$USERNAME/.bashrc
 
+# install all ROS dependencies
+WORKDIR $USER_WORKSPACE
+RUN sudo apt-get -q update \
+    && sudo apt-get -q -y upgrade \
+    && sudo rosdep init \
+    && rosdep update \
+    && rosdep install -y --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} \
+    && sudo apt-get autoremove -y \
+    && sudo apt-get clean -y \
+    && sudo rm -rf /var/lib/apt/lists/*
+
 # install and configure NVIDIA software needed for GPU access
 WORKDIR /home/$USERNAME
 RUN sudo apt-get update \
@@ -97,6 +108,7 @@ RUN sudo apt-get update \
     libegl1 \
     libxext6 \
     libx11-6 \
+    libxcb-cursor0 \
     && sudo apt-get autoremove -y \
     && sudo apt-get clean -y \
     && sudo rm -rf /var/lib/apt/lists/*
