@@ -53,14 +53,13 @@ class WatchDog(Node):
             return [False for _ in range(len(topics))]
 
         # keep track of whether or not the user (myself) was notified of the warning.
-        # (I don't want to spam myself with a bunch of messages; I'll just get pissed)
+        # (I don't want to spam myself with a bunch of messages; I'll just get annoyed)
         self.battery_notifications = notification_list(self.params.battery_topics)
         self.pressure_notifications = notification_list(self.params.pressure_topics)
 
         # text-to-speech engine
         self.engine = pyttsx3.init()
 
-        # create the subscriptions
         for i, topic in enumerate(self.params.battery_topics):
             cb = partial(self.battery_cb, topic, i)
             self.create_subscription(BatteryState, topic, cb, qos)
@@ -74,7 +73,7 @@ class WatchDog(Node):
 
         Parameters
         ----------
-        - `topic`: The battery topic; used to retrieve the monitor configurations.
+        - `topic`: The battery topic: used to retrieve the monitor configurations.
         - `notification_idx`: The `battery_notifications` index that this battery stores
             its notification flag at.
         - `msg`: The `BatteryState` message.
@@ -104,7 +103,7 @@ class WatchDog(Node):
 
         Parameters
         ----------
-        - `topic`: The pressure topic; used to retrieve the monitor configurations.
+        - `topic`: The pressure topic: used to retrieve the monitor configurations.
         - `notification_idx`: The `pressure_notifications` index that this sensor stores
             its notification flag at.
         - `msg`: The `FluidPressure` message.
