@@ -1,0 +1,11 @@
+launch:
+    - let:
+          name: watchdog_file
+          value: $(find-pkg-share topside_description)/config/watchdog.yaml
+
+    - node:
+          pkg: topside_watchdog
+          exec: topside_watchdog
+          output: screen
+          param:
+              - from: $(var watchdog_file)

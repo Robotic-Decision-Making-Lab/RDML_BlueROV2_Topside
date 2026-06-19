@@ -3,7 +3,7 @@ watchdog_interface:
         type: string_array
         read_only: true
         description: A list of topics over which battery messages are being published.
-        default_value: []
+        default_value: [""]
 
     battery_monitor_configurations:
         __map_battery_topics:
@@ -18,7 +18,8 @@ watchdog_interface:
                 read_only: true
                 description: The minimum allowable battery percentage.
                 default_value: 0.25
-                bounds<>: [0.0, 1.0]
+                validation:
+                    bounds<>: [0.0, 1.0]
 
             name:
                 type: string
@@ -30,7 +31,7 @@ watchdog_interface:
         type: string_array
         read_only: true
         description: A list of topics over which internal pressure sensor data is published.
-        default_value: []
+        default_value: [""]
 
     pressure_monitor_configurations:
         __map_pressure_topics:

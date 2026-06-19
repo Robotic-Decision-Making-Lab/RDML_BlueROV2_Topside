@@ -84,7 +84,7 @@ RUN --mount=type=ssh,uid=1000 \
     && echo "source ${VIRTUAL_ENV}/bin/activate" >> /home/$USERNAME/.bashrc \
     && touch $VIRTUAL_ENV/COLCON_IGNORE
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN echo "export PYTHONPATH=\"\${PYTHONPATH}:${VIRTUAL_ENV}/lib/python3.12/site-packages\"" >> /home/$USERNAME/.bashrc
+RUN echo "export PYTHONPATH=\"\${PYTHONPATH}:${VIRTUAL_ENV}/lib/python3.14/site-packages\"" >> /home/$USERNAME/.bashrc
 
 # install all ROS dependencies
 WORKDIR $USER_WORKSPACE
@@ -96,6 +96,22 @@ RUN sudo apt-get -q update \
     && sudo apt-get autoremove -y \
     && sudo apt-get clean -y \
     && sudo rm -rf /var/lib/apt/lists/*
+
+# install and configure the text-to-speech system
+RUN sudo apt-get -q update \
+    && sudo apt-get -q -y upgrade \
+    && sudo apt-get install -y -qq --no-install-recommends \
+    espeak-ng \
+    libespeak1 \
+    alsa-base \
+    alsa-utils \
+    libasound2-dev \
+    acl \
+    && sudo apt-get autoremove -y \
+    && sudo apt-get clean -y \
+    && sudo rm -rf /var/lib/apt/lists/*
+COPY .devcontainer/asound.conf /etc/asound.conf
+RUN sudo usermod -aG audio $USER
 
 # install and configure NVIDIA software needed for GPU access
 WORKDIR /home/$USERNAME
