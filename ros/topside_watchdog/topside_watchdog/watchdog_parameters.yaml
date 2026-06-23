@@ -26,6 +26,8 @@ watchdog_interface:
                 read_only: true
                 description: The nickname used by the text-to-speech interface
                 default_value: ""
+                validation:
+                    not_empty<>: null
 
     pressure_topics:
         type: string_array
@@ -45,3 +47,5 @@ watchdog_interface:
                 read_only: true
                 description: The nickname used by the text-to-speech interface
                 default_value: ""
+                validation:
+                    not_empty<>: null

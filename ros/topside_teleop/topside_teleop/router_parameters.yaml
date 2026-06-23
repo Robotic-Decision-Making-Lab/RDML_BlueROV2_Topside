@@ -27,6 +27,8 @@ router_interface:
                 The external topic that custom control messages will be published to.
                 This is used when the manual ArduSub control is disabled.
             default_value: ""
+            validation:
+                not_empty<>: null
 
         interface_type:
             type: string
@@ -36,6 +38,8 @@ router_interface:
                 to determine how to convert joystick inputs into messages for the
                 external controller.
             default_value: "geometry_msgs/msg/Twist"
+            validation:
+                not_empty<>: null
 
         interface_controls:
             type: string_array
@@ -45,6 +49,8 @@ router_interface:
                 be mapped to. The order of the controls must match the order of the
                 joystick axes.
             default_value: ["linear.y", "linear.x", "angular.z", "linear.z"]
+            validation:
+                not_empty<>: null
 
         min_value:
             type: double
