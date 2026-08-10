@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 ARG CUDA_VERSION=13.3.0
-FROM nvidia/cuda:${CUDA_VERSION}-devel-ubuntu24.04
+FROM nvidia/cuda:${CUDA_VERSION}-devel-ubuntu26.04
 
-ARG ROS_DISTRO=jazzy
+ARG ROS_DISTRO=lyrical
 ARG USERNAME=ubuntu
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
