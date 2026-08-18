@@ -46,5 +46,10 @@ setup(
     maintainer_email="evanp922@gmail.com",
     description="Converts joystick input to MAVROS RC override messages",
     license="MIT",
+    extras_require={
+        "test": [
+            "pytest",
+        ],
+    },
     entry_points={"console_scripts": ["teleop_router = topside_teleop.router:main"]},
 )
