@@ -1,51 +1,71 @@
 # Topside Software
 
-This repository hosts the necessary software, configurations, and documentation 
-for deploying the topside system with the BlueROV 2 Heavy. Our topside system 
-is primarily responsible for monitoring the BlueROV status, routing 
-teleoperation commands, and logging.
-
-## Installation
-
-Install the topside software system by first cloning the project repository to
-your topside device. Once cloned, the system can be used via the provided
-[development container](https://containers.dev/) located in `.devcontainer`.
+This repository hosts the necessary software, configurations, and documentation
+for deploying the Robotic Decision Making Lab's (RDML) topside system with the
+BlueROV2.
 
 ## Networking
 
-The following section details the networking configurations for the topside
-system.
+The topside computer serves as the root of the BlueROV network and provides
+internet access via NAT.
 
-<details>
-  <summary>Network configuration</summary>
+### Assign a static IP
 
-  The topside system should be assigned the static IP address:
-  ```
-  192.168.2.1
-  ```
-</details>
+Set the Ethernet interface (connected to the BlueROV network) to `192.168.2.1`.
 
-<details>
-  <summary>Internet forwarding</summary>
+### Enable internet masqurading
 
-  Internet forwarding from the topside system to the BlueROV is enabled using
-  network address translation (NAT), which configures the topside device as a
-  network gateway. This interface is exposed through `scripts/nat.sh`:
-  ```bash
-  ./nat.sh <wlan_interface> <eth_interface>
-  ```
-  To determine the interfaces used as arguments for `nat.sh`, run
-  ```bash
-  ip a
-  ```
-  The device names are generally unchanged across deployments, so you can assign
-  an alias to the script using
-  ```bash
-  ./make_alias.sh "nat" <wlan_interface> <eth_interface>
-  ```
-  which assigns the alias to `nat`.
-</details>
+Internet forwarding from the topside system to the BlueROV2 is enabled using
+network address translation (NAT), which configures the topside device as a
+network gateway. This interface is exposed through `scripts/nat.sh`:
+
+```bash
+# run using
+. scripts/nat.sh <wlan_interface> <eth_interface>
+
+# append the -h flag for further details
+. scripts/nat.sh -h
+```
+
+### Configuring SSH key authentication for the local network
+
+1. Generate an SSH key for the local network
+
+    ```bash
+    ssh-keygen -t ed25519 -C "BlueROV network key"
+    ```
+
+2. Copy the public key to each device in the subsystem
+
+    ```bash
+    ssh-copy-id -i ~/.ssh/<ssh key>.pub user@device_ip
+    ```
+
+3. Manage the SSH key identities in `~/.ssh/config` (optional)
+
+    ```bash
+    Host device1
+        HostName <ip-address>
+        User <username>
+        IdentityFile <path-to-ssh-key-file>
+    ```
+
+## Citation
+
+This repository has been used in the following papers:
+
+```bibtex
+@article{palmer2026stochastic,
+  title         = {{Stochastic Physics-Informed Neural Networks on Lie Groups for Learning Underwater Vehicle Dynamics}},
+  author        = {Palmer, Evan F. and Hatton, Ross L. and Hollinger, Geoffrey A.},
+  journal       = {arXiv preprint arXiv:2608.08356},
+  year          = {2026},
+  eprint        = {https://doi.org/10.48550/arXiv.2608.08356},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+}
+```
 
 ## License
 
-RDML_BlueROV2_Topside is released under the MIT license.
+RDML_BlueROV2_Topside is released under the [MIT License](LICENSE).

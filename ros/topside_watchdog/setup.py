@@ -46,6 +46,11 @@ setup(
     maintainer_email="evanp922@gmail.com",
     description="Monitors the health of the BlueROV",
     license="MIT",
+    extras_require={
+        "test": [
+            "pytest",
+        ],
+    },
     entry_points={
         "console_scripts": ["topside_watchdog = topside_watchdog.watchdog:main"]
     },
