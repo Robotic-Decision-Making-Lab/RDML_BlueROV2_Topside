@@ -11,3 +11,8 @@ dependencies = [
 
 [tool.uv]
 python-preference = "only-system"
+
+[tool.basedpyright]
+typeCheckingMode = "standard"
+enableTypeIgnoreComments = true
+reportMissingTypeStubs = "none"
