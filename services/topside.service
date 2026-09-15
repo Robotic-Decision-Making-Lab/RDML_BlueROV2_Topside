@@ -1,0 +1,14 @@
+[Unit]
+Description=Launch the topside ROS 2 system
+After=docker.service network-online.target
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -c "docker compose -f __REPO_ROOT__/docker/docker-compose.yml up --detach topside teleop"
+ExecStop=/bin/bash -c "docker compose -f __REPO_ROOT__/docker/docker-compose.yml stop topside teleop"
+
+[Install]
+WantedBy=multi-user.target

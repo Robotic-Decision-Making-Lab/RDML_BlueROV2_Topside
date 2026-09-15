@@ -63,25 +63,6 @@ nat -h
         IdentityFile <path-to-ssh-key-file>
     ```
 
-## Deployment
-
-The topside and teleop launch files are deployed as separate containers using
-Docker Compose.
-
-The containers are managed using `scripts/topside.sh`, which is exposed through
-the `topside` alias:
-
-```bash
-# launch the topside and teleop containers
-topside up
-
-# rebuild the image before launching (e.g., after adding a new dependency)
-topside up --build
-
-# append the -h flag for further details
-topside -h
-```
-
 ## Citation
 
 This repository has been used in the following papers:
