@@ -4,6 +4,19 @@ This repository hosts the necessary software, configurations, and documentation
 for deploying the Robotic Decision Making Lab's (RDML) topside system with the
 BlueROV2.
 
+## Installation
+
+Clone the repository and run the install script to install the system
+dependencies (including Docker) and configure the utility aliases:
+
+```bash
+git clone git@github.com:Robotic-Decision-Making-Lab/RDML_BlueROV2_Topside.git
+cd RDML_BlueROV2_Topside && ./scripts/install.sh
+```
+
+Log out and back in afterward so that the `docker` group membership and the new
+aliases take effect.
+
 ## Networking
 
 The topside computer serves as the root of the BlueROV network and provides
@@ -21,10 +34,10 @@ network gateway. This interface is exposed through `scripts/nat.sh`:
 
 ```bash
 # run using
-. scripts/nat.sh <wlan_interface> <eth_interface>
+nat <wlan_interface> <eth_interface>
 
 # append the -h flag for further details
-. scripts/nat.sh -h
+nat -h
 ```
 
 ### Configuring SSH key authentication for the local network
@@ -55,20 +68,19 @@ network gateway. This interface is exposed through `scripts/nat.sh`:
 The topside and teleop launch files are deployed as separate containers using
 Docker Compose.
 
-The containers are managed using `scripts/topside.sh`:
+The containers are managed using `scripts/topside.sh`, which is exposed through
+the `topside` alias:
 
 ```bash
 # launch the topside and teleop containers
-. scripts/topside.sh up
+topside up
 
 # rebuild the image before launching (e.g., after adding a new dependency)
-. scripts/topside.sh up --build
+topside up --build
 
 # append the -h flag for further details
-. scripts/topside.sh -h
+topside -h
 ```
-
-This interface is also exposed through the `topside` alias.
 
 ## Citation
 
