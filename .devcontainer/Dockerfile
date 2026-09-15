@@ -10,6 +10,9 @@ ARG USER_GID=$USER_UID
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PROJECT_NAME=topside
 
+# REMOVE LATER - this is a temporary patch while i work
+RUN rm -f /etc/apt/sources.list.d/cuda-*.list
+
 # set the timezone
 RUN echo 'Etc/UTC' > /etc/timezone && \
     ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
@@ -96,22 +99,6 @@ RUN sudo apt-get -q update \
     && sudo apt-get autoremove -y \
     && sudo apt-get clean -y \
     && sudo rm -rf /var/lib/apt/lists/*
-
-# install and configure the text-to-speech system
-RUN sudo apt-get -q update \
-    && sudo apt-get -q -y upgrade \
-    && sudo apt-get install -y -qq --no-install-recommends \
-    espeak-ng \
-    libespeak1 \
-    alsa-base \
-    alsa-utils \
-    libasound2-dev \
-    acl \
-    && sudo apt-get autoremove -y \
-    && sudo apt-get clean -y \
-    && sudo rm -rf /var/lib/apt/lists/*
-COPY .devcontainer/asound.conf /etc/asound.conf
-RUN sudo usermod -aG audio $USER
 
 # install and configure NVIDIA software needed for GPU access
 WORKDIR /home/$USERNAME

@@ -50,6 +50,22 @@ network gateway. This interface is exposed through `scripts/nat.sh`:
         IdentityFile <path-to-ssh-key-file>
     ```
 
+## Deployment
+
+The topside and teleop launch files are deployed as separate containers using
+Docker Compose.
+
+```bash
+# build the image and launch the topside and teleop containers
+docker compose -f docker/docker-compose.yml up -d --build topside teleop
+
+# view the logs
+docker compose -f docker/docker-compose.yml logs -f
+
+# stop the containers
+docker compose -f docker/docker-compose.yml down
+```
+
 ## Citation
 
 This repository has been used in the following papers:

@@ -1,0 +1,26 @@
+services:
+  ros:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    network_mode: host
+    ipc: host
+    volumes:
+      - ..:/home/ubuntu/ws_ros/src/topside
+    # uncomment the following for interactive mode
+    command: tail -f /dev/null
+
+  topside:
+    extends: ros
+    devices:
+      - /dev/snd
+    volumes:
+      - ./asound.conf:/etc/asound.conf
+    command: ros2 launch topside_bringup topside.launch.yaml
+
+  teleop:
+    extends: ros
+    privileged: true
+    volumes:
+      - /dev:/dev
+    command: ros2 launch topside_bringup teleop.launch.yaml
