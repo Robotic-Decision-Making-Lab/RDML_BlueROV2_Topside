@@ -1,4 +1,12 @@
 watchdog_interface:
+    notification_interval:
+        type: double
+        read_only: true
+        description: Seconds to wait before repeating an active warning.
+        default_value: 30.0
+        validation:
+            gt<>: [0.0]
+
     battery_topics:
         type: string_array
         read_only: true
