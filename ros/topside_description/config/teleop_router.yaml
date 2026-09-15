@@ -7,7 +7,7 @@ teleop_router:
         external_control:
             # enable the external control interface so that we can forward joystick
             # controls to an external (i.e., not ArduSub) controller
-            enable: false
+            enable: true
 
             # default to sending the joystick controls to the TAM
             topic: "/thruster_allocation_matrix_controller/reference"
