@@ -63,6 +63,9 @@ RUN sudo apt-get -q update \
     && sudo apt-get clean -y \
     && sudo rm -rf /var/lib/apt/lists/* /tmp/deps
 
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /home/$USERNAME/.bashrc \
+    && echo "[ -f ~/ws_ros/install/setup.bash ] && source ~/ws_ros/install/setup.bash" >> /home/$USERNAME/.bashrc
+
 COPY --chown=$USERNAME:$USERNAME docker/entrypoint.sh /
 
 ENTRYPOINT [ "/entrypoint.sh" ]

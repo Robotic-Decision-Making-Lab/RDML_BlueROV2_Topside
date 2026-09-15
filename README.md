@@ -55,16 +55,20 @@ network gateway. This interface is exposed through `scripts/nat.sh`:
 The topside and teleop launch files are deployed as separate containers using
 Docker Compose.
 
+The containers are managed using `scripts/topside.sh`:
+
 ```bash
-# build the image and launch the topside and teleop containers
-docker compose -f docker/docker-compose.yml up -d --build topside teleop
+# launch the topside and teleop containers
+. scripts/topside.sh up
 
-# view the logs
-docker compose -f docker/docker-compose.yml logs -f
+# rebuild the image before launching (e.g., after adding a new dependency)
+. scripts/topside.sh up --build
 
-# stop the containers
-docker compose -f docker/docker-compose.yml down
+# append the -h flag for further details
+. scripts/topside.sh -h
 ```
+
+This interface is also exposed through the `topside` alias.
 
 ## Citation
 
