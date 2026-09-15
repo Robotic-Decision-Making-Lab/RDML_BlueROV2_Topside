@@ -17,15 +17,15 @@ sudo apt-get update \
 #
 # the containers are launched with docker compose, which ships with the
 # convenience script's docker-compose-plugin
-curl https://get.docker.com | sh \
-  && sudo systemctl enable docker \
-  && sudo systemctl start docker
+# curl https://get.docker.com | sh \
+#   && sudo systemctl enable docker \
+#   && sudo systemctl start docker
 
 # add your user to the `docker` group
 #
 # log out and back in (or run `newgrp docker`) for this to take effect
-sudo usermod -aG docker $USER
-newgrp docker
+# sudo usermod -aG docker $USER
+# newgrp docker
 
 export REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export SCRIPTS=$REPO_ROOT/scripts
@@ -47,6 +47,6 @@ add_alias() {
 }
 
 chmod +x $SCRIPTS/nat.sh $SCRIPTS/topside.sh \
-  && add_alias "nat" "$SCRIPTS/nat.sh" \
+  && add_alias "nat" "$SCRIPTS/nat.sh wlp62s0 enp61s0" \
   && add_alias "topside" "$SCRIPTS/topside.sh" \
   && source ~/.bashrc
