@@ -5,7 +5,7 @@ topside_watchdog:
 
     pressure_topics:
       - /mavros/imu/static_pressure
-      - /bme680_driver/pressure
+      - /bme680/pressure
 
     battery_monitor_configurations:
       /mavros/battery:
@@ -18,6 +18,6 @@ topside_watchdog:
         minimum_pressure: 10.0 # psi
         name: "BlueROV bottle"
 
-      /bme680_driver/pressure:
+      /bme680/pressure:
         minimum_pressure: 10.0 # psi
         name: "Autonomy bottle"
