@@ -101,11 +101,6 @@ class WatchDog(Node):
     def pressure_cb(self, topic: str, notification_idx: int, msg: FluidPressure):
         """Notify users when a bottle has lost vacuum.
 
-        Each bottle is sealed under a partial vacuum, so its internal pressure sits
-        below atmospheric. A reading that has risen above `minimum_pressure` (the
-        pressure it was pulled down to) means air is leaking in and the bottle has
-        lost its vacuum.
-
         Parameters
         ----------
         - `topic`: The pressure topic: used to retrieve the monitor configurations.
