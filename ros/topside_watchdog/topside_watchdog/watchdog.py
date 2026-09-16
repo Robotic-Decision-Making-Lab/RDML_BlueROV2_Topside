@@ -118,7 +118,7 @@ class WatchDog(Node):
             self.battery_last_notified[notification_idx] = None
 
     def pressure_cb(self, topic: str, notification_idx: int, msg: FluidPressure):
-        """Notify users when the internal pressure is low.
+        """Notify users when a bottle has lost vacuum.
 
         Parameters
         ----------
@@ -130,14 +130,18 @@ class WatchDog(Node):
         configs = self.params.pressure_monitor_configurations.get_entry(topic)
         current_pressure = msg.fluid_pressure * PA_TO_PSI
 
-        if current_pressure < configs.minimum_pressure:
-            self.notify(
-                self.pressure_last_notified,
-                notification_idx,
-                f"{configs.name} is low. Current pressure is {current_pressure} psi.",
-            )
-        else:
-            self.pressure_last_notified[notification_idx] = None
+        if current_pressure > configs.minimum_pressure:
+            notified = self.pressure_notifications[notification_idx]
+            if not notified:
+                notification = (
+                    f"{configs.name} has lost vacuum. Current pressure is "
+                    f"{current_pressure:.1f} psi."
+                )
+
+                self.get_logger().info(notification)
+                self.engine.say(notification)
+                self.engine.runAndWait()
+                self.pressure_notifications[notification_idx] = True
 
 
 def main(args: Any = None):

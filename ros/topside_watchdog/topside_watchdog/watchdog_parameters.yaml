@@ -48,7 +48,9 @@ watchdog_interface:
             minimum_pressure:
                 type: double
                 default_value: 10.0
-                description: "The lowest allowable internal pressure reading (PSI)"
+                description: "The pressure (PSI) that the bottle is pulled down to when
+                    sealed under vacuum. A reading above this indicates that the bottle
+                    has lost vacuum (i.e. it is leaking)."
 
             name:
                 type: string

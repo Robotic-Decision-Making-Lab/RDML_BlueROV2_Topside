@@ -19,7 +19,8 @@ nat() {
   sudo iptables -A FORWARD -i $eth -o $wlan -j ACCEPT
   sudo iptables -A FORWARD -i $wlan -o $eth -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-  sudo sysctl -p
+  echo "net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/99-rdml-nat.conf > /dev/null
+  sudo sysctl -p /etc/sysctl.d/99-rdml-nat.conf
 }
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then

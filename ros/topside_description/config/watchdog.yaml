@@ -2,8 +2,14 @@ topside_watchdog:
     ros__parameters:
         notification_interval: 30.0 # seconds between repeated warnings
 
+<<<<<<< HEAD
         battery_topics:
             - /mavros/battery
+=======
+    pressure_topics:
+      - /mavros/imu/static_pressure
+      - /bme680/pressure
+>>>>>>> origin/main
 
         pressure_topics:
             - /mavros/imu/static_pressure
@@ -15,6 +21,7 @@ topside_watchdog:
                 cutoff: 0.25
                 name: "Primary battery"
 
+<<<<<<< HEAD
         pressure_monitor_configurations:
             /mavros/imu/static_pressure:
                 minimum_pressure: 10.0 # psi
@@ -23,3 +30,8 @@ topside_watchdog:
             /bme680_driver/pressure:
                 minimum_pressure: 10.0 # psi
                 name: "Autonomy bottle"
+=======
+      /bme680/pressure:
+        minimum_pressure: 10.0 # psi
+        name: "Autonomy bottle"
+>>>>>>> origin/main
