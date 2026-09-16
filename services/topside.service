@@ -7,8 +7,8 @@ Requires=docker.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/bash -c "docker compose -f __REPO_ROOT__/docker/docker-compose.yml up --detach topside teleop"
-ExecStop=/bin/bash -c "docker compose -f __REPO_ROOT__/docker/docker-compose.yml stop topside teleop"
+ExecStart=/bin/bash -c "docker compose -f __REPO_ROOT__/docker/docker-compose.yml up --detach topside"
+ExecStop=/bin/bash -c "docker compose -f __REPO_ROOT__/docker/docker-compose.yml stop topside"
 
 [Install]
 WantedBy=multi-user.target
