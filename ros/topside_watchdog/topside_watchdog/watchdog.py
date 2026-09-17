@@ -49,13 +49,14 @@ class WatchDog(Node):
         self.param_listener = watchdog_interface.ParamListener(self)
         self.params = self.param_listener.get_params()
 
-        def notification_list(topics: list[str]):
-            return [False for _ in range(len(topics))]
+        def notification_times(topics: list[str]) -> list[float | None]:
+            return [None for _ in topics]
 
-        # keep track of whether or not the user (myself) was notified of the warning.
-        # (I don't want to spam myself with a bunch of messages; I'll just get annoyed)
-        self.battery_notifications = notification_list(self.params.battery_topics)
-        self.pressure_notifications = notification_list(self.params.pressure_topics)
+        # keep track of when the user (myself) was last notified of each warning, so that
+        # an active warning can be repeated until it clears without spamming me in
+        # between. `None` means that the monitor isn't currently warning about anything.
+        self.battery_last_notified = notification_times(self.params.battery_topics)
+        self.pressure_last_notified = notification_times(self.params.pressure_topics)
 
         # text-to-speech engine
         self.engine = pyttsx3.init()
@@ -68,14 +69,35 @@ class WatchDog(Node):
             cb = partial(self.pressure_cb, topic, i)
             self.create_subscription(FluidPressure, topic, cb, qos)
 
+    def notify(self, last_notified: list[float | None], idx: int, message: str) -> None:
+        """Announce a warning, repeating at most once per `notification_interval`.
+
+        Parameters
+        ----------
+        - `last_notified`: The monitor's notification-time list, updated in place.
+        - `idx`: The index within `last_notified` that this monitor stores its
+            notification time at.
+        - `message`: The notification to log and speak.
+        """
+        now = self.get_clock().now().nanoseconds * 1e-9
+        last = last_notified[idx]
+
+        if last is not None and now - last < self.params.notification_interval:
+            return
+
+        self.get_logger().warning(message)
+        self.engine.say(message)
+        self.engine.runAndWait()
+        last_notified[idx] = now
+
     def battery_cb(self, topic: str, notification_idx: int, msg: BatteryState):
         """Notify users when a battery is low.
 
         Parameters
         ----------
         - `topic`: The battery topic: used to retrieve the monitor configurations.
-        - `notification_idx`: The `battery_notifications` index that this battery stores
-            its notification flag at.
+        - `notification_idx`: The `battery_last_notified` index that this battery stores
+            its notification time at.
         - `msg`: The `BatteryState` message.
         """
         configs = self.params.battery_monitor_configurations.get_entry(topic)
@@ -86,17 +108,14 @@ class WatchDog(Node):
         current_charge = (msg.voltage - min_charge) / (max_charge - min_charge)
 
         if current_charge < configs.cutoff:
-            notified = self.battery_notifications[notification_idx]
-            if not notified:
-                notification = (
-                    f"{configs.name} is low. Current charge is "
-                    f"{(current_charge * 100):.0f}%."
-                )
-
-                self.get_logger().info(notification)
-                self.engine.say(notification)
-                self.engine.runAndWait()
-                self.battery_notifications[notification_idx] = True
+            self.notify(
+                self.battery_last_notified,
+                notification_idx,
+                f"{configs.name} is low. Current charge is "
+                f"{(current_charge * 100):.0f}%.",
+            )
+        else:
+            self.battery_last_notified[notification_idx] = None
 
     def pressure_cb(self, topic: str, notification_idx: int, msg: FluidPressure):
         """Notify users when a bottle has lost vacuum.
@@ -104,8 +123,8 @@ class WatchDog(Node):
         Parameters
         ----------
         - `topic`: The pressure topic: used to retrieve the monitor configurations.
-        - `notification_idx`: The `pressure_notifications` index that this sensor stores
-            its notification flag at.
+        - `notification_idx`: The `pressure_last_notified` index that this sensor stores
+            its notification time at.
         - `msg`: The `FluidPressure` message.
         """
         configs = self.params.pressure_monitor_configurations.get_entry(topic)

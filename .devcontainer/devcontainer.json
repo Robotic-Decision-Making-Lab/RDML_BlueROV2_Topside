@@ -17,15 +17,13 @@
         "--privileged",
         "--volume=/tmp/.X11-unix:/tmp/.X11-unix",
         "--gpus=all,capabilities=video",
-        "--runtime=nvidia",
-        "--device=/dev/snd"
+        "--runtime=nvidia"
     ],
     "containerEnv": {
         "DISPLAY": "${localEnv:DISPLAY}",
         "QT_X11_NO_MITSHM": "1",
         "QT_QPA_PLATFORM": "xcb",
         "NVIDIA_VISIBLE_DEVICES": "all",
-        "NVIDIA_DRIVER_CAPABILITIES": "all",
-        "PULSE_SERVER": "${localEnv:PULSE_SERVER}"
+        "NVIDIA_DRIVER_CAPABILITIES": "all"
     }
 }

@@ -4,6 +4,19 @@ This repository hosts the necessary software, configurations, and documentation
 for deploying the Robotic Decision Making Lab's (RDML) topside system with the
 BlueROV2.
 
+## Installation
+
+Clone the repository and run the install script to install the system
+dependencies (including Docker) and configure the utility aliases:
+
+```bash
+git clone git@github.com:Robotic-Decision-Making-Lab/RDML_BlueROV2_Topside.git
+cd RDML_BlueROV2_Topside && ./scripts/install.sh
+```
+
+Log out and back in afterward so that the `docker` group membership and the new
+aliases take effect.
+
 ## Networking
 
 The topside computer serves as the root of the BlueROV network and provides
@@ -21,10 +34,10 @@ network gateway. This interface is exposed through `scripts/nat.sh`:
 
 ```bash
 # run using
-. scripts/nat.sh <wlan_interface> <eth_interface>
+nat <wlan_interface> <eth_interface>
 
 # append the -h flag for further details
-. scripts/nat.sh -h
+nat -h
 ```
 
 ### Configuring SSH key authentication for the local network

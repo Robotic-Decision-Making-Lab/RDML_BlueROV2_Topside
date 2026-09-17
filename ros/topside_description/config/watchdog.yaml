@@ -1,5 +1,7 @@
 topside_watchdog:
   ros__parameters:
+    notification_interval: 30.0 # seconds between repeated warnings
+
     battery_topics:
       - /mavros/battery
 
@@ -10,7 +12,7 @@ topside_watchdog:
     battery_monitor_configurations:
       /mavros/battery:
         total_cells: 4
-        cutoff: 0.25
+        cutoff: 0.25 # ~3.3v / cell
         name: "Primary battery"
 
     pressure_monitor_configurations:
