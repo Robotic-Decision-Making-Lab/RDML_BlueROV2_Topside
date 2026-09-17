@@ -10,9 +10,6 @@ ARG USER_GID=$USER_UID
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PROJECT_NAME=topside
 
-# REMOVE LATER - this is a temporary patch while i work
-RUN rm -f /etc/apt/sources.list.d/cuda-*.list
-
 # set the timezone
 RUN echo 'Etc/UTC' > /etc/timezone && \
     ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
