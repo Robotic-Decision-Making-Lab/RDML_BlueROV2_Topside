@@ -98,22 +98,3 @@ joy_teleop:
       service_request:
         custom_mode: ALT_HOLD
       buttons: [1]
-
-    # right trigger; used by GWM_Experiment_Pipeline's collection_tree, a no-op if
-    # that node isn't running
-    start_data_collection:
-      type: service
-      interface_type: std_srvs/srv/SetBool
-      service_name: /collection_tree/enable
-      buttons: [7]
-      service_request:
-        data: True
-
-    # left trigger
-    stop_data_collection:
-      type: service
-      interface_type: std_srvs/srv/SetBool
-      service_name: /collection_tree/enable
-      buttons: [6]
-      service_request:
-        data: False

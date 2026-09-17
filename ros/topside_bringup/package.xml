@@ -3,7 +3,7 @@
 <package format="3">
 
   <name>topside_bringup</name>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
   <description>Launch files for the topside device</description>
 
   <maintainer email="evanp922@gmail.com">Evan Palmer</maintainer>
