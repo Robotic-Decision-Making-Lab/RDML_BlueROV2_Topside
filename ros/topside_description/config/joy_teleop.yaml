@@ -24,77 +24,96 @@
 # 11     right stick click
 
 joy_node:
-    ros__parameters:
-        dev: /dev/input/js0
+  ros__parameters:
+    dev: /dev/input/js0
 
 joy_teleop:
-    ros__parameters:
-        # left bumper
-        disable_autonomous_control:
-            type: service
-            interface_type: std_srvs/srv/SetBool
-            service_name: /controller_coordinator/activate
-            buttons: [4]
-            service_request:
-                data: False
+  ros__parameters:
+    # left bumper
+    disable_autonomous_control:
+      type: service
+      interface_type: std_srvs/srv/SetBool
+      service_name: /controller_coordinator/activate
+      buttons: [4]
+      service_request:
+        data: False
 
-        activate_ardusub_control:
-            type: service
-            interface_type: std_srvs/srv/SetBool
-            service_name: /teleop_router/enable
-            buttons: [4]
-            service_request:
-                data: True
+    activate_ardusub_control:
+      type: service
+      interface_type: std_srvs/srv/SetBool
+      service_name: /teleop_router/enable
+      buttons: [4]
+      service_request:
+        data: True
 
-        # right bumper
-        enable_autonomous_control:
-            type: service
-            interface_type: std_srvs/srv/SetBool
-            service_name: /controller_coordinator/activate
-            buttons: [5]
-            service_request:
-                data: True
+    # right bumper
+    enable_autonomous_control:
+      type: service
+      interface_type: std_srvs/srv/SetBool
+      service_name: /controller_coordinator/activate
+      buttons: [5]
+      service_request:
+        data: True
 
-        disable_ardusub_control:
-            type: service
-            interface_type: std_srvs/srv/SetBool
-            service_name: /teleop_router/enable
-            buttons: [5]
-            service_request:
-                data: False
+    disable_ardusub_control:
+      type: service
+      interface_type: std_srvs/srv/SetBool
+      service_name: /teleop_router/enable
+      buttons: [5]
+      service_request:
+        data: False
 
-        # back
-        disarm_ardusub:
-            type: service
-            interface_type: mavros_msgs/srv/CommandBool
-            service_name: /mavros/cmd/arming
-            service_request:
-                value: False
-            buttons: [8]
+    # back
+    disarm_ardusub:
+      type: service
+      interface_type: mavros_msgs/srv/CommandBool
+      service_name: /mavros/cmd/arming
+      service_request:
+        value: False
+      buttons: [8]
 
-        # start
-        arm_ardusub:
-            type: service
-            interface_type: mavros_msgs/srv/CommandBool
-            service_name: /mavros/cmd/arming
-            service_request:
-                value: True
-            buttons: [9]
+    # start
+    arm_ardusub:
+      type: service
+      interface_type: mavros_msgs/srv/CommandBool
+      service_name: /mavros/cmd/arming
+      service_request:
+        value: True
+      buttons: [9]
 
-        # X
-        manual_mode:
-            type: service
-            interface_type: mavros_msgs/srv/SetMode
-            service_name: /mavros/set_mode
-            service_request:
-                custom_mode: MANUAL
-            buttons: [0]
+    # X
+    manual_mode:
+      type: service
+      interface_type: mavros_msgs/srv/SetMode
+      service_name: /mavros/set_mode
+      service_request:
+        custom_mode: MANUAL
+      buttons: [0]
 
-        # A
-        depth_hold_mode:
-            type: service
-            interface_type: mavros_msgs/srv/SetMode
-            service_name: /mavros/set_mode
-            service_request:
-                custom_mode: ALT_HOLD
-            buttons: [1]
+    # A
+    depth_hold_mode:
+      type: service
+      interface_type: mavros_msgs/srv/SetMode
+      service_name: /mavros/set_mode
+      service_request:
+        custom_mode: ALT_HOLD
+      buttons: [1]
+
+    # right trigger; used by GWM_Experiment_Pipeline's collection_tree, a no-op if
+    # that node isn't running
+    start_data_collection:
+      type: service
+      interface_type: std_srvs/srv/SetBool
+      service_name: /collection_tree/enable
+      buttons: [7]
+      service_request:
+        data: True
+
+    # left trigger
+    stop_data_collection:
+      type: service
+      interface_type: std_srvs/srv/SetBool
+      service_name: /collection_tree/enable
+      buttons: [6]
+      service_request:
+        data: False
