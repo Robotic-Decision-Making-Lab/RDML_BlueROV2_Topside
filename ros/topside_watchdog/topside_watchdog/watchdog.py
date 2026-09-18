@@ -131,17 +131,14 @@ class WatchDog(Node):
         current_pressure = msg.fluid_pressure * PA_TO_PSI
 
         if current_pressure > configs.minimum_pressure:
-            notified = self.pressure_notifications[notification_idx]
-            if not notified:
-                notification = (
-                    f"{configs.name} has lost vacuum. Current pressure is "
-                    f"{current_pressure:.1f} psi."
-                )
-
-                self.get_logger().info(notification)
-                self.engine.say(notification)
-                self.engine.runAndWait()
-                self.pressure_notifications[notification_idx] = True
+            self.notify(
+                self.pressure_last_notified,
+                notification_idx,
+                f"{configs.name} has lost vacuum. Current pressure is "
+                f"{current_pressure:.1f} psi.",
+            )
+        else:
+            self.pressure_last_notified[notification_idx] = None
 
 
 def main(args: Any = None):

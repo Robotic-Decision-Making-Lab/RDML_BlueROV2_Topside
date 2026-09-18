@@ -17,6 +17,32 @@ cd RDML_BlueROV2_Topside && ./scripts/install.sh
 Log out and back in afterward so that the `docker` group membership and the new
 aliases take effect.
 
+## Usage
+
+The topside stack, including the system monitor and joystick interface, is
+orchestrated by Docker Compose. These services are loaded automatically at
+boot. To check the status of the service, run
+
+```bash
+# check the service status
+systemctl status topside.service
+docker compose -f docker/docker-compose.yml ps
+
+# view the service logs
+docker compose -f docker/docker-compose.yml logs -f topside
+```
+
+### Visualization
+
+RViz can be launched from a container using the `rviz` alias
+
+```bash
+rviz
+```
+
+which loads the [RViz configuration file](ros/topside_description/config/topside.rviz)
+by default.
+
 ## Networking
 
 The topside computer serves as the root of the BlueROV network and provides

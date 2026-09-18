@@ -1,0 +1,104 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /TF1/Frames1
+      Splitter Ratio: 0.5
+    Tree Height: 600
+  - Class: rviz_common/Views
+    Name: Views
+    Expanded:
+      - /Current View1
+    Splitter Ratio: 0.5
+
+Visualization Manager:
+  Class: ""
+  Name: root
+
+  Global Options:
+    # the topside system is visualized relative to the odometry frame
+    Fixed Frame: odom
+    Frame Rate: 30
+    # white background: the display is used in the field, where only bright
+    # screens are legible in direct sunlight
+    Background Color: 255; 255; 255
+
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Alpha: 0.5
+      # the default grid color is near-white, which disappears against the
+      # white background
+      Color: 60; 60; 60
+      Cell Size: 1
+      Plane: XY
+      Plane Cell Count: 10
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Reference Frame: <Fixed Frame>
+
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: true
+      Frame Timeout: 15
+      Marker Scale: 1
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Update Interval: 0
+      # only show the odom and body frames. any other frames published to /tf
+      # are left disabled so that the view stays readable
+      Frames:
+        All Enabled: false
+        odom:
+          Value: true
+        body_frame:
+          Value: true
+      Tree:
+        odom:
+          body_frame:
+            {}
+
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+      Line color: 128; 128; 0
+
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Current View
+      Distance: 10
+      Yaw: 0.785398006439209
+      Pitch: 0.785398006439209
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Near Clip Distance: 0.009999999776482582
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz_default_plugins)
+    Saved: ~
+
+Window Geometry:
+  Displays:
+    collapsed: false
+  Views:
+    collapsed: false
+  Height: 846
+  Width: 1200
+  X: 100
+  Y: 100

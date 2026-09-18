@@ -1,5 +1,9 @@
 services:
   ros:
+    # name the image explicitly so that every service shares one build. without
+    # this, each service inheriting `build` gets its own identical image and
+    # `docker compose run rviz` triggers a full rebuild on first use.
+    image: topside:latest
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -12,6 +16,7 @@ services:
 
   topside:
     extends: ros
+    restart: unless-stopped
     devices:
       - /dev/snd
     volumes:
@@ -20,7 +25,30 @@ services:
 
   teleop:
     extends: ros
+    restart: unless-stopped
     privileged: true
     volumes:
       - /dev:/dev
     command: ros2 launch topside_bringup teleop.launch.yaml
+
+  # launch with `rviz` (see scripts/rviz.sh). this is kept behind a profile so
+  # that it is never started by a bare `docker compose up` or at boot.
+  #
+  # note that DISPLAY must have a default here: compose interpolates the whole
+  # file on every invocation, including the boot-time `up` that has no display
+  rviz:
+    extends: ros
+    profiles: ["gui"]
+    environment:
+      DISPLAY: ${DISPLAY:-:0}
+      XAUTHORITY: /tmp/.docker.xauth
+      QT_X11_NO_MITSHM: "1"
+      QT_QPA_PLATFORM: xcb
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${TOPSIDE_XAUTH:-/tmp/.docker.xauth}:/tmp/.docker.xauth:ro
+    # load the configuration from the mounted source tree rather than the
+    # install tree, so that saving from rviz writes back to the repository
+    command: >
+      ros2 run rviz2 rviz2 -d
+      /home/ubuntu/ws_ros/src/topside/ros/topside_description/config/topside.rviz

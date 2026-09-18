@@ -11,6 +11,7 @@ sudo apt-get update \
     net-tools \
     iptables \
     alsa-utils \
+    xauth \
   && sudo apt-get autoremove -y
 
 # install docker
@@ -23,9 +24,10 @@ curl https://get.docker.com | sh \
 
 # add your user to the `docker` group
 #
-# log out and back in (or run `newgrp docker`) for this to take effect
+# log out and back in (or run `newgrp docker`) for this to take effect. don't
+# run `newgrp` here: it starts a new interactive shell, which would block the
+# rest of this script until that shell is exited.
 sudo usermod -aG docker $USER
-newgrp docker
 
 export REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export SCRIPTS=$REPO_ROOT/scripts
@@ -33,8 +35,9 @@ export SERVICES=$REPO_ROOT/services
 
 # setup the utility aliases
 #
-# `nat` takes the wlan and eth interfaces as arguments (see `nat -h`) and
-# `topside` manages the docker compose stack (see `topside -h`)
+# `nat` configures the network address translation for this machine's
+# interfaces and `rviz` launches RViz using the default topside configuration
+# (see `rviz -h`)
 add_alias() {
   local name="$1"
   local command="$2"
@@ -47,10 +50,9 @@ add_alias() {
   fi
 }
 
-chmod +x $SCRIPTS/nat.sh $SCRIPTS/topside.sh \
+chmod +x $SCRIPTS/*.sh \
   && add_alias "nat" "$SCRIPTS/nat.sh wlp62s0 enp61s0" \
-  && add_alias "topside" "$SCRIPTS/topside.sh" \
-  && source ~/.bashrc
+  && add_alias "rviz" "$SCRIPTS/rviz.sh"
 
 # setup the topside systemd service
 #
