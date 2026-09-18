@@ -5,7 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 799
   - Class: rviz_common/Views
@@ -41,13 +40,48 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        bar30:
+          Value: false
+        base_footprint:
+          Value: false
+        base_link:
+          Value: true
+        base_link_frd:
+          Value: false
+        base_link_fsd:
+          Value: false
+        bno08x:
+          Value: false
+        dvl_link:
+          Value: false
+        map:
+          Value: false
+        map_ned:
+          Value: false
+        odom:
+          Value: true
+        odom_ned:
+          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
-      Show Names: true
+      Show Names: false
       Tree:
-        {}
+        odom:
+          base_link:
+            bar30:
+              {}
+            base_link_frd:
+              {}
+            base_link_fsd:
+              {}
+            bno08x:
+              {}
+            dvl_link:
+              {}
+          odom_ned:
+            {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -68,7 +102,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 10
+      Distance: 8.572317123413086
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -83,10 +117,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.785398006439209
+      Pitch: 0.7553982734680176
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz_default_plugins)
-      Yaw: 0.785398006439209
+      Yaw: 1.1403976678848267
     Saved: ~
 Window Geometry:
   Displays:
