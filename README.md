@@ -60,10 +60,10 @@ network gateway. This interface is exposed through `scripts/nat.sh`:
 
 ```bash
 # run using
-nat <wlan_interface> <eth_interface>
+. nat.sh <wlan_interface> <eth_interface>
 
 # append the -h flag for further details
-nat -h
+. nat.sh -h
 ```
 
 ### Configuring SSH key authentication for the local network
