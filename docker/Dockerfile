@@ -3,6 +3,9 @@ FROM ros:${ROS_DISTRO}-ros-base
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# keep the NVIDIA GPU out of the container even if the NVIDIA runtime is used
+ENV NVIDIA_VISIBLE_DEVICES=void
+
 RUN apt-get -q update \
     && apt-get -q -y upgrade \
     && apt-get -q install --no-install-recommends -y \
