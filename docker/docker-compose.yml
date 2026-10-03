@@ -1,5 +1,6 @@
 services:
   ros:
+    image: topside:latest
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -7,11 +8,11 @@ services:
     ipc: host
     volumes:
       - ..:/home/ubuntu/ws_ros/src/topside
-    # uncomment the following for interactive mode
     command: tail -f /dev/null
 
   topside:
     extends: ros
+    restart: unless-stopped
     devices:
       - /dev/snd
     volumes:
@@ -20,7 +21,23 @@ services:
 
   teleop:
     extends: ros
+    restart: unless-stopped
     privileged: true
     volumes:
       - /dev:/dev
     command: ros2 launch topside_bringup teleop.launch.yaml
+
+  rviz:
+    extends: ros
+    profiles: ["gui"]
+    environment:
+      DISPLAY: ${DISPLAY:-:0}
+      XAUTHORITY: /tmp/.docker.xauth
+      QT_X11_NO_MITSHM: "1"
+      QT_QPA_PLATFORM: xcb
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${TOPSIDE_XAUTH:-/tmp/.docker.xauth}:/tmp/.docker.xauth:ro
+    command: >
+      ros2 run rviz2 rviz2 -d
+      /home/ubuntu/ws_ros/src/topside/ros/topside_description/config/topside.rviz

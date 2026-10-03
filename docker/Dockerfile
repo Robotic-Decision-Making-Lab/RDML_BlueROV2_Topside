@@ -2,6 +2,7 @@ ARG ROS_DISTRO=lyrical
 FROM ros:${ROS_DISTRO}-ros-base
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV NVIDIA_VISIBLE_DEVICES=void
 
 RUN apt-get -q update \
     && apt-get -q -y upgrade \
@@ -67,5 +68,4 @@ RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /home/$USERNAME/.bashrc \
     && echo "[ -f ~/ws_ros/install/setup.bash ] && source ~/ws_ros/install/setup.bash" >> /home/$USERNAME/.bashrc
 
 COPY --chown=$USERNAME:$USERNAME docker/entrypoint.sh /
-
 ENTRYPOINT [ "/entrypoint.sh" ]

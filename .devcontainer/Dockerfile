@@ -1,6 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG CUDA_VERSION=13.3.0
-FROM nvidia/cuda:${CUDA_VERSION}-devel-ubuntu26.04
+FROM ubuntu:26.04
 
 ARG ROS_DISTRO=lyrical
 ARG USERNAME=ubuntu
@@ -97,7 +96,11 @@ RUN sudo apt-get -q update \
     && sudo apt-get clean -y \
     && sudo rm -rf /var/lib/apt/lists/*
 
-# install and configure NVIDIA software needed for GPU access
+# install the graphics libraries needed for GUI applications (e.g., RViz).
+#
+# we render applications using the integrated GPU instead of the NVIDIA GPU
+# so that we can use the NVIDIA GPU for policies and models running on the
+# host
 WORKDIR /home/$USERNAME
 RUN sudo apt-get update \
     && sudo apt-get -q -y upgrade \
@@ -106,6 +109,9 @@ RUN sudo apt-get update \
     libgl1 \
     libglx0 \
     libegl1 \
+    libgl1-mesa-dri \
+    libglx-mesa0 \
+    libegl-mesa0 \
     libxext6 \
     libx11-6 \
     libxcb-cursor0 \
@@ -113,8 +119,7 @@ RUN sudo apt-get update \
     && sudo apt-get clean -y \
     && sudo rm -rf /var/lib/apt/lists/*
 
-ENV NVIDIA_VISIBLE_DEVICES=all
-ENV NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute
+ENV NVIDIA_VISIBLE_DEVICES=void
 ENV QT_X11_NO_MITSHM=1
 
 WORKDIR $USER_WORKSPACE
