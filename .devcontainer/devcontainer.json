@@ -6,7 +6,7 @@
   "build": {
     "dockerfile": "Dockerfile",
     "context": "../",
-    "options": ["--ssh=default"],
+    "options": ["--ssh=default"]
   },
   "runArgs": [
     "--network=host",
@@ -15,11 +15,11 @@
     "--security-opt=apparmor:unconfined",
     "--volume=/dev:/dev",
     "--privileged",
-    "--volume=/tmp/.X11-unix:/tmp/.X11-unix",
+    "--volume=/tmp/.X11-unix:/tmp/.X11-unix"
   ],
   "containerEnv": {
     "DISPLAY": "${localEnv:DISPLAY}",
     "QT_X11_NO_MITSHM": "1",
-    "QT_QPA_PLATFORM": "xcb",
-  },
+    "QT_QPA_PLATFORM": "xcb"
+  }
 }
