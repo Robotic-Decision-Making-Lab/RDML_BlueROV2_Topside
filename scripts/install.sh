@@ -24,9 +24,7 @@ curl https://get.docker.com | sh \
 
 # add your user to the `docker` group
 #
-# log out and back in (or run `newgrp docker`) for this to take effect. don't
-# run `newgrp` here: it starts a new interactive shell, which would block the
-# rest of this script until that shell is exited.
+# log out and back in (or run `newgrp docker`) for this to take effect
 sudo usermod -aG docker $USER
 
 export REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -37,7 +35,6 @@ export SERVICES=$REPO_ROOT/services
 #
 # `nat` configures the network address translation for this machine's
 # interfaces and `rviz` launches RViz using the default topside configuration
-# (see `rviz -h`)
 add_alias() {
   local name="$1"
   local command="$2"
@@ -58,9 +55,6 @@ chmod +x $SCRIPTS/*.sh \
 #
 # this runs by default so that the stack doesn't need to be launched manually
 # after the system boots
-#
-# the repository path is baked into the unit file at install time, so re-run
-# this script if the repository is ever moved
 sed "s|__REPO_ROOT__|$REPO_ROOT|g" $SERVICES/topside.service \
   | sudo tee /etc/systemd/system/topside.service > /dev/null \
   && sudo systemctl daemon-reload \

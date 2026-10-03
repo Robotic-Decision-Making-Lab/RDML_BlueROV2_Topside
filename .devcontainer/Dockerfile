@@ -98,8 +98,9 @@ RUN sudo apt-get -q update \
 
 # install the graphics libraries needed for GUI applications (e.g., RViz).
 #
-# rendering is handled by Mesa (the integrated GPU or software rendering) so
-# that the NVIDIA GPU stays free for models and policies running on the host
+# we render applications using the integrated GPU instead of the NVIDIA GPU
+# so that we can use the NVIDIA GPU for policies and models running on the
+# host
 WORKDIR /home/$USERNAME
 RUN sudo apt-get update \
     && sudo apt-get -q -y upgrade \
@@ -118,10 +119,6 @@ RUN sudo apt-get update \
     && sudo apt-get clean -y \
     && sudo rm -rf /var/lib/apt/lists/*
 
-# keep the NVIDIA GPU out of the container even if the NVIDIA runtime is used
-#
-# we don't want to access the GPU here so that we can leave it available for
-# any policies/models that need access.
 ENV NVIDIA_VISIBLE_DEVICES=void
 ENV QT_X11_NO_MITSHM=1
 

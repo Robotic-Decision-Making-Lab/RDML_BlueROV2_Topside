@@ -31,5 +31,4 @@ chmod 644 "$XAUTH"
 
 echo "[INFO] Launching RViz"
 
-# `run --rm` keeps RViz in the foreground and leaves no container behind
 TOPSIDE_XAUTH="$XAUTH" docker compose -f "$COMPOSE_FILE" run --rm rviz
